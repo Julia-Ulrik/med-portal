@@ -3,41 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Медцентр — Главная</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Медицинский Центр</title>
   <style>
+    /* Сброс стандартных отступов и полей */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Основной стиль страницы */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4; /* Лёгкий фон */
+      color: #333; /* Цвет текста */
+    }
+
     /* Стили для header */
     header {
       text-align: center;
       padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     /* Стили для изображения */
     .hero-image {
-      width: 100%; /* Ширина 100% от контейнера */
+      width: 100%; /* Изображение занимает 100% ширины контейнера */
       height: auto; /* Высота пропорциональна ширине */
-      object-fit: contain; /* Сохраняет пропорции и делает изображение видимым целиком */
-      max-height: 500px; /* Максимальная высота изображения */
+      object-fit: contain; /* Сохраняет пропорции изображения */
+      max-height: 60vh; /* Ограничиваем максимальную высоту изображения (60% от высоты экрана) */
     }
 
-    /* Стили для текста */
+    /* Стили для заголовка */
     h1 {
       font-size: 2.5em;
       margin-top: 20px;
       color: #1E90FF; /* Голубой цвет для текста */
     }
 
+    /* Стили для абзаца */
     p {
       font-size: 1.2em;
       color: #333; /* Цвет текста */
+      margin-top: 10px;
+    }
+
+    /* Адаптивный дизайн для планшетов */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em; /* Уменьшаем размер заголовка */
+      }
+
+      p {
+        font-size: 1em; /* Уменьшаем размер текста */
+      }
+    }
+
+    /* Адаптивный дизайн для мобильных устройств */
+    @media (max-width: 480px) {
+      header {
+        padding: 10px;
+      }
+
+      .hero-image {
+        max-height: 50vh; /* Изменяем максимальную высоту изображения для мобильных */
+      }
+
+      h1 {
+        font-size: 1.8em; /* Уменьшаем размер заголовка для мобильных устройств */
+      }
+
+      p {
+        font-size: 0.9em; /* Уменьшаем размер текста для мобильных */
+      }
     }
   </style>
 </head>
@@ -51,6 +90,7 @@
 
 </body>
 </html>
+
 
 
   <main>
