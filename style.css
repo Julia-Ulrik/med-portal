@@ -1,12 +1,101 @@
+/* Общие стили */
 body {
-  font-family: sans-serif;
-  padding: 20px;
-  background: #f7f7f7;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5faff;
+  color: #333;
 }
+
+header {
+  text-align: center;
+  background-color: #0097d1;
+  color: white;
+  padding: 20px 0;
+}
+
+.hero-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
 h1 {
-  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-top: 20px;
 }
+
+p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+main {
+  padding: 20px;
+}
+
+/* Стили блоков "О нас", "Врачи" и т.д. */
+.info-blocks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.block {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.block:hover {
+  transform: scale(1.05);
+}
+
+.block h2 {
+  font-size: 1.6rem;
+  color: #007bb5;
+}
+
+.block p {
+  font-size: 1.1rem;
+}
+
+/* Открытие блоков */
+.block.open p {
+  display: block;
+}
+
+.block p {
+  display: none;
+}
+
+.login {
+  text-align: center;
+  margin-top: 30px;
+}
+
 button {
-  margin: 5px;
-  padding: 6px 12px;
+  padding: 10px 20px;
+  background-color: #0097d1;
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #007bb5;
+}
+
+/* Футер */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #007bb5;
+  color: white;
 }
