@@ -2,15 +2,89 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Портал для работников Мединского центра</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход для персонала</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #007acc;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .login-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .login-card {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 30px 20px;
+      width: 200px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .login-card:hover {
+      transform: scale(1.05);
+    }
+
+    .login-card a {
+      text-decoration: none;
+      color: #007acc;
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.9em;
+      color: #999;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
   <h1>Вход в систему для персонала</h1>
-  <ul>
-    <li><a href="doctor.html">Врач</a></li>
-    <li><a href="staff.html">Регистратор</a></li>
-    <li><a href="admin.html">Администратор</a></li>
-  </ul>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="icon"><i class="fas fa-user-md"></i></div>
+      <a href="doctor.html">Врач</a>
+    </div>
+    <div class="login-card">
+      <div class="icon"><i class="fas fa-user-check"></i></div>
+      <a href="staff.html">Регистратор</a>
+    </div>
+    <div class="login-card">
+      <div class="icon"><i class="fas fa-user-shield"></i></div>
+      <a href="admin.html">Администратор</a>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 Медицинский Центр</footer>
+
 </body>
 </html>
