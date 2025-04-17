@@ -78,6 +78,74 @@
         font-size: 0.9em; /* Уменьшаем размер текста для мобильных */
       }
     }
+
+    /* Стили для блока с информацией */
+    .info-blocks {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 столбца */
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .block {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .block:hover {
+      transform: scale(1.05);
+    }
+
+    .block h2 {
+      color: #1E90FF;
+    }
+
+    .block p {
+      color: #555;
+    }
+
+    /* Стили для раскрытия блока */
+    .block.open p {
+      display: block;
+    }
+
+    .block p {
+      display: none; /* Скрыть текст, пока блок не открыт */
+    }
+
+    /* Кнопка входа в личный кабинет */
+    .login {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .login button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background-color: #1E90FF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Стили для подвала */
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
@@ -87,11 +155,6 @@
     <h1>Добро пожаловать в наш Медицинский Центр</h1>
     <p>Доступ к медицинским услугам, консультациям и многому другому.</p>
   </header>
-
-</body>
-</html>
-
-
 
   <main>
     <section class="info-blocks">
@@ -130,5 +193,7 @@
       });
     });
   </script>
+
 </body>
 </html>
+
