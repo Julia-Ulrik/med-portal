@@ -2,19 +2,53 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Медцентр — Главная</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Добро пожаловать в Медицинский Центр</h1>
-  <p>Онлайн-консультации, доступ к медкарте, анкеты, рецепты и многое другое.</p>
+  <header>
+    <img src="https://github.com/Julia-Ulrik/med-portal/blob/main/telemed%20main%20page.jpg" alt="Фото медцентра" class="hero-image">
+    <h1>Добро пожаловать в наш Медицинский Центр</h1>
+    <p>Доступ к медицинским услугам, консультациям и многому другому.</p>
+  </header>
 
-  <h2>Вход в систему</h2>
-  <ul>
-    <li><a href="patient.html">Пациент</a></li>
-    <li><a href="doctor.html">Врач</a></li>
-    <li><a href="staff.html">Регистратор</a></li>
-    <li><a href="admin.html">Администратор</a></li>
-  </ul>
+  <main>
+    <section class="info-blocks">
+      <div class="block" id="about">
+        <h2>О нас</h2>
+        <p>Мы предлагаем широкий спектр медицинских услуг с использованием новейших технологий.</p>
+      </div>
+      <div class="block" id="doctors">
+        <h2>Врачи</h2>
+        <p>Наши специалисты — это опытные врачи с многолетним стажем.</p>
+      </div>
+      <div class="block" id="services">
+        <h2>Услуги и цены</h2>
+        <p>Предлагаем консультации, диагностику, лечение и профилактику заболеваний.</p>
+      </div>
+      <div class="block" id="reviews">
+        <h2>Отзывы</h2>
+        <p>Читайте отзывы наших довольных пациентов о качественном обслуживании.</p>
+      </div>
+    </section>
+
+    <section class="login">
+      <button onclick="window.location.href='patient.html'">Войти в личный кабинет</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Медицинский Центр</p>
+  </footer>
+
+  <script>
+    // Скрипт для анимации блоков (раскрытие при клике)
+    document.querySelectorAll('.block').forEach(block => {
+      block.addEventListener('click', () => {
+        block.classList.toggle('open');
+      });
+    });
+  </script>
 </body>
 </html>
