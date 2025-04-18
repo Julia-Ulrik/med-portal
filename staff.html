@@ -53,6 +53,7 @@
     table.schedule {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
     }
 
     table.schedule th, table.schedule td {
@@ -70,6 +71,24 @@
       text-align: left;
       background-color: #f4fbff;
       font-weight: bold;
+    }
+
+    .controls {
+      margin-bottom: 10px;
+    }
+
+    .controls input[type="text"] {
+      padding: 6px;
+      margin-right: 10px;
+    }
+
+    .controls button {
+      margin-right: 5px;
+      padding: 6px 10px;
+      background-color: #1E90FF;
+      color: white;
+      border: none;
+      cursor: pointer;
     }
 
     .waiting-list ul, .client-list ul {
@@ -96,6 +115,14 @@
   <main>
     <section id="schedule" class="section active">
       <h2>График работы врачей</h2>
+      <div class="controls">
+        <input type="text" placeholder="Поиск врача...">
+        <button>Создать новый график</button>
+        <button>Уведомить о создании графика</button>
+        <button>Отправить на согласование</button>
+        <button>Сохранить</button>
+        <button>Отменить</button>
+      </div>
       <table class="schedule">
         <thead>
           <tr>
@@ -112,9 +139,9 @@
         </thead>
         <tbody>
           <script>
-            const doctors = Array.from({ length: 50 }, (_, i) => `Врач ${i + 1} И.И.`);
+            const doctors = Array.from({ length: 50 }, (_, i) => `Иванов И.И.`);
             for (let d = 0; d < doctors.length; d++) {
-              document.write('<tr><td class="doctor-name">' + doctors[d] + '</td>');
+              document.write('<tr><td class="doctor-name">' + doctors[d] + ' ' + (d + 1) + '</td>');
               for (let i = 1; i <= days; i++) {
                 const working = Math.random() > 0.3;
                 if (working) {
@@ -176,5 +203,3 @@
   </script>
 </body>
 </html>
-
-
