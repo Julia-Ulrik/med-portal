@@ -3,170 +3,257 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кабинет Врача</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Кабинет врача</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       display: flex;
-      margin: 0;
+      min-height: 100vh;
       background-color: #f4faff;
-      color: #333;
     }
     nav {
-      width: 200px;
+      width: 220px;
       background-color: #e0f0ff;
       padding: 20px;
-      height: 100vh;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      border-right: 2px solid #c0e0ff;
+    }
+    nav h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #0077cc;
     }
     nav ul {
       list-style: none;
-      padding: 0;
     }
     nav ul li {
-      margin-bottom: 10px;
-    }
-    nav ul li a {
-      text-decoration: none;
+      margin: 10px 0;
+      cursor: pointer;
       color: #0077cc;
     }
     main {
       flex: 1;
       padding: 20px;
     }
-    .calendar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
     .calendar-header {
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      max-width: 800px;
+      align-items: center;
       margin-bottom: 10px;
     }
-    .calendar-grid {
+    .calendar {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 5px;
-      max-width: 800px;
     }
     .day {
       background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 10px;
-      min-height: 150px;
-      position: relative;
+      border: 1px solid #cce5ff;
+      padding: 5px;
+    }
+    .slots {
+      margin-top: 5px;
     }
     .slot {
-      font-size: 0.8em;
+      font-size: 12px;
       padding: 2px 4px;
       margin: 2px 0;
-      border-radius: 4px;
-      background-color: #dff0d8; /* free slot */
+      background-color: #d0f0d0;
+      border-radius: 3px;
     }
     .slot.busy {
-      background-color: #f8d7da; /* busy slot */
+      background-color: #f8d0d0;
     }
-    .chat-popup {
+    .actions {
+      margin-top: 15px;
+    }
+    .actions button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .chat-box {
       position: fixed;
       bottom: 20px;
       right: 20px;
+      width: 280px;
       border: 1px solid #ccc;
-      background: white;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-header {
+      background-color: #0077cc;
+      color: white;
       padding: 10px;
-      width: 250px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-weight: bold;
+      border-radius: 8px 8px 0 0;
+    }
+    .chat-messages {
+      height: 120px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+    }
+    .chat-input button {
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <nav>
+    <h2>Меню</h2>
     <ul>
-      <li><a href="#">График работы</a></li>
-      <li><a href="#">Клиенты</a></li>
-      <li><a href="#">Справочники</a></li>
-      <li><a href="#">Настройки</a></li>
-      <li><a href="#">Помощь</a></li>
+      <li onclick="showTab('schedule')">График работы</li>
+      <li onclick="showTab('clients')">Клиенты</li>
+      <li onclick="showTab('refs')">Справочники</li>
+      <li onclick="showTab('settings')">Настройки</li>
+      <li onclick="showTab('help')">Помощь</li>
     </ul>
   </nav>
+
   <main>
-    <h1>Расписание</h1>
-    <div class="calendar">
+    <div id="schedule" class="tab-content active">
       <div class="calendar-header">
-        <button onclick="changeMonth(-1)">◀ Пред</button>
-        <h2 id="calendar-title"></h2>
-        <button onclick="changeMonth(1)">След ▶</button>
+        <button onclick="changeMonth(-1)">Пред</button>
+        <h2 id="monthYear"></h2>
+        <button onclick="changeMonth(1)">След</button>
       </div>
-      <div class="calendar-grid" id="calendar"></div>
+      <div class="calendar" id="calendar"></div>
+      <div class="actions">
+        <button>Редактировать</button>
+        <button>Сохранить</button>
+        <button>Отменить</button>
+        <button>Уведомить</button>
+        <button>Согласовать</button>
+      </div>
+    </div>
+
+    <div id="clients" class="tab-content">
+      <h2>Клиенты</h2>
+      <input type="text" placeholder="Поиск по ФИО или номеру карты">
+      <ul>
+        <li><a href="#">Иванов И.И. — 01.01.1980 — МК123 — 1234567890</a></li>
+        <li><a href="#">Петрова А.А. — 10.03.1975 — МК456 — 0987654321</a></li>
+      </ul>
+    </div>
+
+    <div id="refs" class="tab-content">
+      <h2>Справочники</h2>
+      <ul>
+        <li><a href="https://www.rlsnet.ru/baa/ukazatel" target="_blank">Алфавитный указатель Бадов</a></li>
+        <li><a href="https://www.rlsnet.ru/drugs/ukazatel" target="_blank">Алфавитный указатель лекарств и субстанций</a></li>
+        <li><a href="https://www.rlsnet.ru/active-substance/ukazatel" target="_blank">Алфавитный указатель действующих веществ</a></li>
+        <li><a href="https://www.rlsnet.ru/analogs" target="_blank">Поиск аналогов препаратов</a></li>
+        <li><a href="https://www.rlsnet.ru/mkb" target="_blank">Международная классификация болезней МКБ-10 </a></li>
+        <li><a href="https://www.rlsnet.ru/mkb/ukazatel" target="_blank">Алфавитный указатель болезней и состояний </a></li>
+      </ul>
+    </div>
+
+    <div id="settings" class="tab-content">
+      <h2>Настройки</h2>
+      <ul>
+        <li>Мой профиль</li>
+        <li>Конфиденциальность и вход</li>
+      </ul>
+    </div>
+
+    <div id="help" class="tab-content">
+      <h2>Помощь</h2>
+      <p>Выберите проблему и отправьте запрос.</p>
+      <select>
+        <option>Не загружается расписание</option>
+        <option>Ошибка входа</option>
+        <option>Не отображаются пациенты</option>
+      </select>
+      <br><br>
+      <button>Отправить</button>
     </div>
   </main>
 
-  <div class="chat-popup">
-    <strong>Чат с пациентом</strong>
-    <p>Иванов Иван</p>
-    <p>Медкарта: №123456</p>
+  <div class="chat-box">
+    <div class="chat-header">Пациент: Анна Смирнова (МК12345)</div>
+    <div class="chat-messages">
+      <p><strong>Анна:</strong> Добрый день, доктор!</p>
+      <p><strong>Вы:</strong> Здравствуйте, Анна. Чем могу помочь?</p>
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Введите сообщение...">
+      <button>Отправить</button>
+    </div>
   </div>
 
   <script>
-    const calendar = document.getElementById('calendar');
-    const title = document.getElementById('calendar-title');
     let currentDate = new Date();
 
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
     function renderCalendar(date) {
-      calendar.innerHTML = '';
+      const calendar = document.getElementById("calendar");
+      const monthYear = document.getElementById("monthYear");
       const year = date.getFullYear();
       const month = date.getMonth();
+
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
 
-      title.textContent = `${date.toLocaleString('ru', { month: 'long' })} ${year}`;
+      monthYear.textContent = date.toLocaleString('ru-RU', { month: 'long', year: 'numeric' });
 
+      const daysInMonth = lastDay.getDate();
       const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
 
+      calendar.innerHTML = "";
+
       for (let i = 0; i < startDay; i++) {
-        const empty = document.createElement('div');
-        calendar.appendChild(empty);
+        calendar.innerHTML += '<div class="day"></div>';
       }
 
-      for (let d = 1; d <= lastDay.getDate(); d++) {
+      for (let d = 1; d <= daysInMonth; d++) {
         const day = document.createElement('div');
         day.classList.add('day');
-        const dateText = document.createElement('strong');
-        dateText.textContent = d;
-        day.appendChild(dateText);
-
-        const slots = generateSlots();
-        slots.forEach(slot => day.appendChild(slot));
-
+        day.innerHTML = `<strong>${d}</strong><div class="slots">`;
+        for (let h = 9; h < 17; h++) {
+          day.innerHTML += `<div class="slot${Math.random() > 0.7 ? ' busy' : ''}">${h}:00</div>`;
+          day.innerHTML += `<div class="slot${Math.random() > 0.7 ? ' busy' : ''}">${h}:30</div>`;
+        }
+        day.innerHTML += '</div>';
         calendar.appendChild(day);
       }
     }
 
-    function generateSlots() {
-      const slots = [];
-      const startHour = 9;
-      const endHour = 17;
-      for (let h = startHour; h < endHour; h++) {
-        for (let m = 0; m < 60; m += 30) {
-          const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-          const slot = document.createElement('div');
-          slot.classList.add('slot');
-          slot.textContent = time;
-          if (Math.random() > 0.7) {
-            slot.classList.add('busy');
-            slot.textContent += ' (занят)';
-          }
-          slots.push(slot);
-        }
-      }
-      return slots;
-    }
-
-    function changeMonth(offset) {
-      currentDate.setMonth(currentDate.getMonth() + offset);
+    function changeMonth(delta) {
+      currentDate.setMonth(currentDate.getMonth() + delta);
       renderCalendar(currentDate);
     }
 
@@ -174,3 +261,4 @@
   </script>
 </body>
 </html>
+
