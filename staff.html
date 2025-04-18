@@ -7,179 +7,176 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      display: flex;
       margin: 0;
+      display: flex;
+      height: 100vh;
       background-color: #f0f8ff;
     }
 
-    .sidebar {
+    nav {
       width: 220px;
-      background-color: #e6f0fa;
+      background-color: #e6f2ff;
       padding: 20px;
-      height: 100vh;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
 
-    .sidebar h2 {
-      font-size: 1.2em;
-      color: #007acc;
-      margin-bottom: 10px;
+    nav h2 {
+      margin-bottom: 20px;
+      color: #1E90FF;
     }
 
-    .sidebar ul {
+    nav ul {
       list-style: none;
       padding: 0;
     }
 
-    .sidebar li {
-      margin-bottom: 15px;
+    nav ul li {
+      margin: 15px 0;
       cursor: pointer;
-      color: #005f99;
+      color: #1E90FF;
     }
 
-    .content {
-      flex-grow: 1;
+    main {
+      flex: 1;
       padding: 20px;
     }
 
-    .tab {
+    .section {
       display: none;
     }
 
-    .tab.active {
+    .section.active {
       display: block;
     }
 
-    .client-list, .waitlist {
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+    table.schedule {
+      width: 100%;
+      border-collapse: collapse;
     }
 
-    .client {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .client:last-child {
-      border-bottom: none;
-    }
-
-    .chat-box {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 280px;
-      background-color: #ffffff;
+    table.schedule th, table.schedule td {
       border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
     }
 
-    .chat-header {
-      background-color: #007acc;
-      color: #fff;
-      padding: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+    table.schedule th {
+      background-color: #d0eaff;
+    }
+
+    table.schedule td.doctor-name {
+      text-align: left;
+      background-color: #f4fbff;
       font-weight: bold;
     }
 
-    .chat-body {
-      padding: 10px;
-      height: 150px;
-      overflow-y: auto;
+    .waiting-list ul {
+      padding-left: 20px;
     }
 
-    .chat-footer {
-      padding: 10px;
-      border-top: 1px solid #ccc;
-    }
-
-    .chat-footer input {
-      width: 100%;
-      padding: 5px;
+    .waiting-list li {
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
+  <nav>
     <h2>Меню</h2>
     <ul>
-      <li onclick="showTab('schedule')">График работы</li>
-      <li onclick="showTab('clients')">Клиенты</li>
-      <li onclick="showTab('waitlist')">Лист ожидания</li>
-      <li onclick="showTab('settings')">Настройки</li>
-      <li onclick="showTab('support')">Помощь</li>
+      <li onclick="showSection('schedule')">График работы врачей</li>
+      <li onclick="showSection('clients')">Клиенты</li>
+      <li onclick="showSection('waiting')">Лист ожидания</li>
+      <li onclick="showSection('settings')">Настройки</li>
+      <li onclick="showSection('help')">Помощь</li>
     </ul>
-  </div>
+  </nav>
 
-  <div class="content">
-    <div id="schedule" class="tab active">
-      <h2>График работы</h2>
-      <p>Календарь приёма врачей будет здесь.</p>
-    </div>
+  <main>
+    <section id="schedule" class="section active">
+      <h2>График работы врачей</h2>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>Врач</th>
+            <!-- Генерация дней месяца -->
+            <script>
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = today.getMonth();
+              const daysInMonth = new Date(year, month + 1, 0).getDate();
+              document.write('<th colspan="' + daysInMonth + '">' + today.toLocaleString('ru-RU', { month: 'long', year: 'numeric' }) + '</th>');
+            </script>
+          </tr>
+          <tr>
+            <th></th>
+            <!-- Числа месяца -->
+            <script>
+              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
+                document.write('<th>' + i + '</th>');
+              }
+            </script>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="doctor-name">Иванов И.И.</td>
+            <script>
+              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
+                document.write('<td>' + (Math.random() > 0.7 ? 'Занято' : 'Свободно') + '</td>');
+              }
+            </script>
+          </tr>
+          <tr>
+            <td class="doctor-name">Петрова А.А.</td>
+            <script>
+              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
+                document.write('<td>' + (Math.random() > 0.6 ? 'Занято' : 'Свободно') + '</td>');
+              }
+            </script>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-    <div id="clients" class="tab">
+    <section id="clients" class="section">
       <h2>Клиенты</h2>
-      <input type="text" placeholder="Поиск по ФИО или номеру карты">
-      <div class="client-list">
-        <div class="client">Иванов И.И. — №12345678</div>
-        <div class="client">Петрова А.А. — №87654321</div>
-      </div>
-    </div>
+      <input type="text" placeholder="Поиск по ФИО или номеру карты" style="width: 100%; padding: 8px; margin-bottom: 15px;">
+      <ul>
+        <li><strong>Смирнов А.А.</strong> — №123456, ОМС: 987654321, 15.04.2025 10:30</li>
+        <li><strong>Кузнецова Н.Н.</strong> — №654321, ДМС: 123456789, 16.04.2025 11:00</li>
+      </ul>
+    </section>
 
-    <div id="waitlist" class="tab">
+    <section id="waiting" class="section waiting-list">
       <h2>Лист ожидания</h2>
-      <div class="waitlist">
-        <h3>Врач: Смирнов С.С.</h3>
-        <p>Пациент: Козлов П.П. — №10010010</p>
-        <p>Пациент: Никифорова Н.В. — №10010011</p>
-      </div>
-      <div class="waitlist">
-        <h3>Врач: Ильина Л.М.</h3>
-        <p>Пациент: Федорова Ю.Р. — №10020020</p>
-      </div>
-    </div>
+      <ul>
+        <li><strong>Иванов И.И.</strong>: Петров С.С. — №222333</li>
+        <li><strong>Петрова А.А.</strong>: Смирнова Е.В. — №111222</li>
+      </ul>
+    </section>
 
-    <div id="settings" class="tab">
+    <section id="settings" class="section">
       <h2>Настройки</h2>
-      <p>Настройки профиля и доступа.</p>
-    </div>
+      <p>Здесь можно изменить информацию о профиле и параметры доступа.</p>
+    </section>
 
-    <div id="support" class="tab">
+    <section id="help" class="section">
       <h2>Помощь</h2>
-      <form>
-        <label>Выберите проблему:</label>
-        <select>
-          <option>Проблема со входом</option>
-          <option>Не отображаются записи</option>
-          <option>Другое</option>
-        </select>
-        <br><br>
-        <button type="submit">Отправить</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="chat-box">
-    <div class="chat-header">Чат с пациентом</div>
-    <div class="chat-body">
-      <p><strong>Козлов П.П.:</strong> Здравствуйте!</p>
-      <p><strong>Вы:</strong> Добрый день! Чем могу помочь?</p>
-    </div>
-    <div class="chat-footer">
-      <input type="text" placeholder="Введите сообщение...">
-    </div>
-  </div>
+      <p>Опишите вашу техническую проблему:</p>
+      <textarea rows="5" style="width: 100%;"></textarea>
+      <button style="margin-top: 10px; padding: 10px 20px; background-color: #1E90FF; color: white; border: none; cursor: pointer;">Отправить</button>
+    </section>
+  </main>
 
   <script>
-    function showTab(tabId) {
-      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
     }
   </script>
 </body>
 </html>
+
