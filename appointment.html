@@ -57,6 +57,17 @@
       display: block;
     }
 
+    /* Перемещаем чекбокс в левый угол */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
     @media (max-width: 768px) {
       h2 {
         font-size: 1.8em;
@@ -134,7 +145,10 @@
   <div class="step" id="step5">
     <h3>Договор оферты</h3>
     <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
-    <input type="checkbox" id="agree"> Я согласен с условиями
+    <div class="checkbox-container">
+      <input type="checkbox" id="agree">
+      <label for="agree">Я согласен с условиями</label>
+    </div>
     <button onclick="confirmOffer()">Подтвердить</button>
   </div>
 
