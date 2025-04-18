@@ -96,7 +96,17 @@
     }
 
     .waiting-list li, .client-list li {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .waiting-list button {
+      margin-left: 10px;
+      padding: 4px 8px;
+      background-color: #1E90FF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -174,7 +184,7 @@
       <ul>
         <script>
           for (let i = 1; i <= 50; i++) {
-            document.write(`<li><strong>Врач ${i} И.И.</strong>: Клиент ${i} К.К. — №${200000 + i}</li>`);
+            document.write(`<li><strong>Врач ${i} И.И.</strong>: Клиент ${i} К.К. — №${200000 + i} <button>Записать на приём</button> <button>Удалить из листа</button></li>`);
           }
         </script>
       </ul>
