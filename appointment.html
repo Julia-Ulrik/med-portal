@@ -169,6 +169,9 @@
       // Обнуляем список врачей
       doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
 
+      // Убираем старое значение специализации
+      specialistSelect.innerHTML = `<option value="">-- Автовыбор --</option>`;
+
       switch (symptom) {
         case "Головная боль":
           specialist = "Невролог";
@@ -190,7 +193,7 @@
           break;
       }
 
-      // Заполняем список врачей
+      // Заполняем список врачей и специализацию
       specialistSelect.value = specialist;
       document.getElementById('specialist').disabled = false; // Разрешаем выбор специализации
       doctorSelect.innerHTML += doctorOptions; // Добавляем врачей для выбранного симптома
