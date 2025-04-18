@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Услуги и цены</title>
+  <style>
+    /* Сброс стандартных отступов и полей */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Основной стиль страницы */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    /* Стили для заголовка */
+    h1 {
+      font-size: 2.5em;
+      text-align: center;
+      margin: 30px 0;
+      color: #1E90FF;
+    }
+
+    /* Стили для таблицы услуг */
+    .service-list {
+      width: 80%;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #1E90FF;
+      color: #fff;
+    }
+
+    table tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Стили для адаптивного дизайна */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2em;
+      }
+
+      .service-list {
+        width: 95%;
+        padding: 10px;
+      }
+
+      table th, table td {
+        font-size: 0.9em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .service-list {
+        width: 100%;
+      }
+
+      table th, table td {
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Услуги и цены</h1>
+
+  <section class="service-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Услуга</th>
+          <th>Описание</th>
+          <th>Стоимость (руб.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Консультация терапевта</td>
+          <td>Общее медицинское обследование и консультация по основным симптомам.</td>
+          <td>1500 ₽</td>
+        </tr>
+        <tr>
+          <td>Консультация кардиолога</td>
+          <td>Диагностика и лечение заболеваний сердечно-сосудистой системы.</td>
+          <td>2500 ₽</td>
+        </tr>
+        <tr>
+          <td>ЭКГ (Электрокардиография)</td>
+          <td>Проверка состояния сердца с помощью электрокардиограммы.</td>
+          <td>800 ₽</td>
+        </tr>
+        <tr>
+          <td>УЗИ (Общий осмотр)</td>
+          <td>Общий ультразвуковой осмотр органов брюшной полости.</td>
+          <td>2000 ₽</td>
+        </tr>
+        <tr>
+          <td>Дерматологический осмотр</td>
+          <td>Консультация дерматолога по кожным заболеваниям.</td>
+          <td>1800 ₽</td>
+        </tr>
+        <tr>
+          <td>Маммография</td>
+          <td>Исследование молочных желез с использованием рентгеновских лучей.</td>
+          <td>3500 ₽</td>
+        </tr>
+        <tr>
+          <td>МРТ (Магнитно-резонансная томография)</td>
+          <td>Исследование внутренних органов с помощью МРТ-оборудования.</td>
+          <td>5000 ₽</td>
+        </tr>
+        <tr>
+          <td>Консультация гинеколога</td>
+          <td>Обследование и консультация по вопросам женского здоровья.</td>
+          <td>2200 ₽</td>
+        </tr>
+        <tr>
+          <td>Психотерапевтическая консультация</td>
+          <td>Помощь в решении психологических проблем и стрессовых ситуаций.</td>
+          <td>2000 ₽</td>
+        </tr>
+        <tr>
+          <td>Рентген (Общий осмотр)</td>
+          <td>Рентгеновский снимок для диагностики повреждений и заболеваний.</td>
+          <td>1500 ₽</td>
+        </tr>
+        <tr>
+          <td>Физиотерапия</td>
+          <td>Лечение заболеваний с помощью физических факторов (терапия светом, токами и т.д.).</td>
+          <td>1200 ₽</td>
+        </tr>
+        <tr>
+          <td>Прививка (вакцинация)</td>
+          <td>Проведение прививок по графику для профилактики заболеваний.</td>
+          <td>900 ₽</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>
