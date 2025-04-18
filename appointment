@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Запись на онлайн-консультацию</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      background-color: #f7fbff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #1E90FF;
+    }
+
+    label, select, input[type="checkbox"] {
+      display: block;
+      margin: 10px 0;
+    }
+
+    button {
+      background-color: #1E90FF;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Онлайн-запись на консультацию</h2>
+
+  <div class="step active" id="step1">
+    <label>Выберите ваши симптомы:</label>
+    <select id="symptoms">
+      <option>Головная боль</option>
+      <option>Боль в животе</option>
+      <option>Сыпь</option>
+      <option>Бессонница</option>
+    </select>
+    <button onclick="goToStep(2)">Далее</button>
+  </div>
+
+  <div class="step" id="step2">
+    <label>Рекомендуемая специализация:</label>
+    <select id="specialist">
+      <option>Невролог</option>
+      <option>Гастроэнтеролог</option>
+      <option>Дерматолог</option>
+      <option>Психотерапевт</option>
+    </select>
+    <button onclick="goToStep(3)">Далее</button>
+  </div>
+
+  <div class="step" id="step3">
+    <label>Выберите врача:</label>
+    <select id="doctor">
+      <option>Иванов И.И.</option>
+      <option>Сидорова А.А.</option>
+      <option>Петров В.В.</option>
+    </select>
+    <button onclick="goToStep(4)">Далее</button>
+  </div>
+
+  <div class="step" id="step4">
+    <label>Выберите удобное время:</label>
+    <select id="slot">
+      <option>10:00, 18.04.2025</option>
+      <option>11:30, 18.04.2025</option>
+      <option>14:00, 19.04.2025</option>
+    </select>
+    <button onclick="goToStep(5)">Далее</button>
+  </div>
+
+  <div class="step" id="step5">
+    <h3>Договор оферты</h3>
+    <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
+    <input type="checkbox" id="agree"> Я согласен с условиями
+    <button onclick="goToStep(6)">Перейти к оплате</button>
+  </div>
+
+  <div class="step" id="step6">
+    <h3>Оплата через ЮKassa</h3>
+    <p>Оплата подключается здесь → 🔗 <strong>(заглушка)</strong></p>
+    <!-- ТУТ подключается виджет ЮKassa -->
+    <button onclick="finish()">Оплатить и завершить</button>
+  </div>
+
+  <div class="step" id="confirmation">
+    <h3>Спасибо!</h3>
+    <p>Вы успешно записались. Подтверждение отправлено вам на электронную почту.</p>
+  </div>
+
+  <script>
+    function goToStep(step) {
+      if (step === 5 && !document.getElementById('agree').checked) {
+        alert("Подтвердите согласие с офертой!");
+        return;
+      }
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+    }
+
+    function finish() {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('confirmation').classList.add('active');
+    }
+  </script>
+
+</body>
+</html>
