@@ -113,15 +113,15 @@
 
   <div class="step" id="step2">
     <label>Рекомендуемая специализация:</label>
-    <select id="specialist" disabled>
-      <option value="">-- Автовыбор --</option>
+    <select id="specialist" disabled onchange="autoFillDoctors()">
+      <option value="">-- Выберите специализацию --</option>
     </select>
     <button onclick="goToStep(3)">Далее</button>
   </div>
 
   <div class="step" id="step3">
     <label>Выберите врача:</label>
-    <select id="doctor">
+    <select id="doctor" disabled>
       <option value="">-- Выберите врача --</option>
     </select>
     <button onclick="goToStep(4)">Далее</button>
@@ -168,9 +168,11 @@
 
       // Обнуляем список врачей
       doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
+      doctorSelect.disabled = true;
 
       // Убираем старое значение специализации
-      specialistSelect.innerHTML = `<option value="">-- Автовыбор --</option>`;
+      specialistSelect.innerHTML = `<option value="">-- Выберите специализацию --</option>`;
+      specialistSelect.disabled = true;
 
       switch (symptom) {
         case "Головная боль":
@@ -193,10 +195,33 @@
           break;
       }
 
-      // Заполняем список врачей и специализацию
+      // Заполняем список специализаций
       specialistSelect.value = specialist;
-      document.getElementById('specialist').disabled = false; // Разрешаем выбор специализации
-      doctorSelect.innerHTML += doctorOptions; // Добавляем врачей для выбранного симптома
+      specialistSelect.disabled = false; // Разрешаем выбор специализации
+      // Заполняем список врачей
+      doctorSelect.innerHTML += doctorOptions;
+      doctorSelect.disabled = false; // Разрешаем выбор врача
+    }
+
+    function autoFillDoctors() {
+      const specialist = document.getElementById('specialist').value;
+      const doctorSelect = document.getElementById('doctor');
+      let doctorOptions = "";
+
+      // Обнуляем список врачей
+      doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
+
+      if (specialist === "Невролог") {
+        doctorOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
+      } else if (specialist === "Гастроэнтеролог") {
+        doctorOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
+      } else if (specialist === "Дерматолог") {
+        doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+      } else if (specialist === "Психотерапевт") {
+        doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+      }
+
+      doctorSelect.innerHTML += doctorOptions;
     }
 
     function confirmOffer() {
@@ -225,3 +250,4 @@
 
 </body>
 </html>
+
