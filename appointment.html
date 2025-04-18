@@ -113,10 +113,10 @@
 
   <div class="step" id="step2">
     <label>Рекомендуемая специализация:</label>
-    <select id="specialist" disabled onchange="autoFillDoctors()">
+    <select id="specialist" onchange="autoFillDoctors()" disabled>
       <option value="">-- Выберите специализацию --</option>
     </select>
-    <button onclick="goToStep(3)">Далее</button>
+    <button onclick="goToStep(3)" disabled>Далее</button>
   </div>
 
   <div class="step" id="step3">
@@ -124,7 +124,7 @@
     <select id="doctor" disabled>
       <option value="">-- Выберите врача --</option>
     </select>
-    <button onclick="goToStep(4)">Далее</button>
+    <button onclick="goToStep(4)" disabled>Далее</button>
   </div>
 
   <div class="step" id="step4">
@@ -162,6 +162,7 @@
       const symptom = document.getElementById('symptoms').value;
       const specialistSelect = document.getElementById('specialist');
       const doctorSelect = document.getElementById('doctor');
+      const nextButton = document.querySelectorAll('#step2 button')[0];
 
       let specialist = "";
       let doctorOptions = "";
@@ -174,6 +175,7 @@
       specialistSelect.innerHTML = `<option value="">-- Выберите специализацию --</option>`;
       specialistSelect.disabled = true;
 
+      // Заполняем специализацию
       switch (symptom) {
         case "Головная боль":
           specialist = "Невролог";
@@ -198,6 +200,8 @@
       // Заполняем список специализаций
       specialistSelect.value = specialist;
       specialistSelect.disabled = false; // Разрешаем выбор специализации
+      nextButton.disabled = false; // Активируем кнопку "Далее"
+      
       // Заполняем список врачей
       doctorSelect.innerHTML += doctorOptions;
       doctorSelect.disabled = false; // Разрешаем выбор врача
@@ -206,6 +210,7 @@
     function autoFillDoctors() {
       const specialist = document.getElementById('specialist').value;
       const doctorSelect = document.getElementById('doctor');
+      const nextButton = document.querySelectorAll('#step3 button')[0];
       let doctorOptions = "";
 
       // Обнуляем список врачей
@@ -222,6 +227,7 @@
       }
 
       doctorSelect.innerHTML += doctorOptions;
+      nextButton.disabled = false; // Активируем кнопку "Далее"
     }
 
     function confirmOffer() {
@@ -250,4 +256,3 @@
 
 </body>
 </html>
-
