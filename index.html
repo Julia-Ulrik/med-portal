@@ -5,21 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Медицинский Центр</title>
   <style>
-    /* Сброс стандартных отступов и полей */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Основной стиль страницы */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4; /* Лёгкий фон */
-      color: #333; /* Цвет текста */
+      background-color: #f4f4f4;
+      color: #333;
     }
 
-    /* Стили для header */
     header {
       text-align: center;
       padding: 20px;
@@ -27,97 +24,66 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Стили для изображения */
     .hero-image {
-      width: 100%; /* Изображение занимает 100% ширины контейнера */
-      height: auto; /* Высота пропорциональна ширине */
-      object-fit: contain; /* Сохраняет пропорции изображения */
-      max-height: 60vh; /* Ограничиваем максимальную высоту изображения (60% от высоты экрана) */
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      max-height: 60vh;
     }
 
-    /* Стили для заголовка */
     h1 {
       font-size: 2.5em;
       margin-top: 20px;
-      color: #1E90FF; /* Голубой цвет для текста */
+      color: #1E90FF;
     }
 
-    /* Стили для абзаца */
     p {
       font-size: 1.2em;
-      color: #333; /* Цвет текста */
       margin-top: 10px;
     }
 
-    /* Адаптивный дизайн для планшетов */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2em; /* Уменьшаем размер заголовка */
-      }
-
-      p {
-        font-size: 1em; /* Уменьшаем размер текста */
-      }
+      h1 { font-size: 2em; }
+      p { font-size: 1em; }
     }
 
-    /* Адаптивный дизайн для мобильных устройств */
     @media (max-width: 480px) {
-      header {
-        padding: 10px;
-      }
-
-      .hero-image {
-        max-height: 50vh; /* Изменяем максимальную высоту изображения для мобильных */
-      }
-
-      h1 {
-        font-size: 1.8em; /* Уменьшаем размер заголовка для мобильных устройств */
-      }
-
-      p {
-        font-size: 0.9em; /* Уменьшаем размер текста для мобильных */
-      }
+      header { padding: 10px; }
+      .hero-image { max-height: 50vh; }
+      h1 { font-size: 1.8em; }
+      p { font-size: 0.9em; }
     }
 
-    /* Стили для блока с информацией */
     .info-blocks {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2 столбца */
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       padding: 20px;
     }
 
-    .block {
+    a.block {
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
       transition: transform 0.3s ease;
-    }
-
-    .block:hover {
-      transform: scale(1.05);
-    }
-
-    .block h2 {
-      color: #1E90FF;
-    }
-
-    .block p {
-      color: #555;
-    }
-
-    /* Стили для раскрытия блока */
-    .block.open p {
+      text-decoration: none;
+      color: inherit;
       display: block;
     }
 
-    .block p {
-      display: none; /* Скрыть текст, пока блок не открыт */
+    a.block:hover {
+      transform: scale(1.05);
     }
 
-    /* Кнопка входа в личный кабинет */
+    a.block h2 {
+      color: #1E90FF;
+    }
+
+    a.block p {
+      color: #555;
+    }
+
     .login {
       text-align: center;
       margin-top: 30px;
@@ -138,7 +104,6 @@
       background-color: #0056b3;
     }
 
-    /* Стили для подвала */
     footer {
       text-align: center;
       padding: 10px;
@@ -158,22 +123,22 @@
 
   <main>
     <section class="info-blocks">
-      <div class="block" id="about">
-       <a href="about.html" class="btn">О нас</a>
-        <p>Мы предлагаем широкий спектр медицинских услуг с использованием новейших технологий.</p>
-      </div>
-      <div class="block" id="doctors">
+      <a href="about.html" class="block">
+        <h2>О нас</h2>
+        <p>Узнайте больше о нашей миссии, ценностях и команде.</p>
+      </a>
+      <a href="doctors.html" class="block">
         <h2>Врачи</h2>
-        <p>Наши специалисты — это опытные врачи с многолетним стажем.</p>
-      </div>
-      <div class="block" id="services">
+        <p>Познакомьтесь с нашими квалифицированными специалистами.</p>
+      </a>
+      <a href="services.html" class="block">
         <h2>Услуги и цены</h2>
-        <p>Предлагаем консультации, диагностику, лечение и профилактику заболеваний.</p>
-      </div>
-      <div class="block" id="reviews">
+        <p>Ознакомьтесь с нашим перечнем медицинских услуг и стоимостью.</p>
+      </a>
+      <a href="reviews.html" class="block">
         <h2>Отзывы</h2>
-        <p>Читайте отзывы наших довольных пациентов о качественном обслуживании.</p>
-      </div>
+        <p>Почитайте впечатления наших пациентов о лечении у нас.</p>
+      </a>
     </section>
 
     <section class="login">
@@ -185,15 +150,7 @@
     <p>&copy; 2025 Медицинский Центр</p>
   </footer>
 
-  <script>
-    // Скрипт для анимации блоков (раскрытие при клике)
-    document.querySelectorAll('.block').forEach(block => {
-      block.addEventListener('click', () => {
-        block.classList.toggle('open');
-      });
-    });
-  </script>
-
 </body>
 </html>
+
 
