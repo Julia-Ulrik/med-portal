@@ -39,6 +39,7 @@
     main {
       flex: 1;
       padding: 20px;
+      overflow-x: auto;
     }
 
     .section {
@@ -58,7 +59,7 @@
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     table.schedule th {
@@ -71,12 +72,12 @@
       font-weight: bold;
     }
 
-    .waiting-list ul {
+    .waiting-list ul, .client-list ul {
       padding-left: 20px;
     }
 
-    .waiting-list li {
-      margin-bottom: 10px;
+    .waiting-list li, .client-list li {
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -99,60 +100,56 @@
         <thead>
           <tr>
             <th>Врач</th>
-            <!-- Генерация дней месяца -->
             <script>
-              const today = new Date();
-              const year = today.getFullYear();
-              const month = today.getMonth();
-              const daysInMonth = new Date(year, month + 1, 0).getDate();
-              document.write('<th colspan="' + daysInMonth + '">' + today.toLocaleString('ru-RU', { month: 'long', year: 'numeric' }) + '</th>');
-            </script>
-          </tr>
-          <tr>
-            <th></th>
-            <!-- Числа месяца -->
-            <script>
-              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
+              const year = new Date().getFullYear();
+              const month = new Date().getMonth();
+              const days = new Date(year, month + 1, 0).getDate();
+              for (let i = 1; i <= days; i++) {
                 document.write('<th>' + i + '</th>');
               }
             </script>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="doctor-name">Иванов И.И.</td>
-            <script>
-              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
-                document.write('<td>' + (Math.random() > 0.7 ? 'Занято' : 'Свободно') + '</td>');
+          <script>
+            const doctors = Array.from({ length: 50 }, (_, i) => `Врач ${i + 1} И.И.`);
+            for (let d = 0; d < doctors.length; d++) {
+              document.write('<tr><td class="doctor-name">' + doctors[d] + '</td>');
+              for (let i = 1; i <= days; i++) {
+                const working = Math.random() > 0.3;
+                if (working) {
+                  document.write('<td><a href="#">Рабочий день</a></td>');
+                } else {
+                  document.write('<td>Выходной день</td>');
+                }
               }
-            </script>
-          </tr>
-          <tr>
-            <td class="doctor-name">Петрова А.А.</td>
-            <script>
-              for (let i = 1; i <= new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate(); i++) {
-                document.write('<td>' + (Math.random() > 0.6 ? 'Занято' : 'Свободно') + '</td>');
-              }
-            </script>
-          </tr>
+              document.write('</tr>');
+            }
+          </script>
         </tbody>
       </table>
     </section>
 
-    <section id="clients" class="section">
+    <section id="clients" class="section client-list">
       <h2>Клиенты</h2>
       <input type="text" placeholder="Поиск по ФИО или номеру карты" style="width: 100%; padding: 8px; margin-bottom: 15px;">
       <ul>
-        <li><strong>Смирнов А.А.</strong> — №123456, ОМС: 987654321, 15.04.2025 10:30</li>
-        <li><strong>Кузнецова Н.Н.</strong> — №654321, ДМС: 123456789, 16.04.2025 11:00</li>
+        <script>
+          for (let i = 1; i <= 50; i++) {
+            document.write(`<li><strong>Клиент ${i} К.К.</strong> — №${100000 + i}, ОМС: ${900000000 + i}, 17.04.2025 10:${i < 10 ? '0' + i : i}</li>`);
+          }
+        </script>
       </ul>
     </section>
 
     <section id="waiting" class="section waiting-list">
       <h2>Лист ожидания</h2>
       <ul>
-        <li><strong>Иванов И.И.</strong>: Петров С.С. — №222333</li>
-        <li><strong>Петрова А.А.</strong>: Смирнова Е.В. — №111222</li>
+        <script>
+          for (let i = 1; i <= 50; i++) {
+            document.write(`<li><strong>Врач ${i} И.И.</strong>: Клиент ${i} К.К. — №${200000 + i}</li>`);
+          }
+        </script>
       </ul>
     </section>
 
@@ -179,4 +176,5 @@
   </script>
 </body>
 </html>
+
 
