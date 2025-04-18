@@ -57,15 +57,16 @@
       display: block;
     }
 
-    /* Перемещаем чекбокс в левый угол */
+    /* Чекбокс сверху */
     .checkbox-container {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       margin-top: 10px;
     }
 
     .checkbox-container input[type="checkbox"] {
-      margin-right: 10px;
+      margin-bottom: 10px;
     }
 
     @media (max-width: 768px) {
@@ -125,9 +126,7 @@
   <div class="step" id="step3">
     <label>Выберите врача:</label>
     <select id="doctor">
-      <option value="Иванов И.И.">Иванов И.И.</option>
-      <option value="Сидорова А.А.">Сидорова А.А.</option>
-      <option value="Петров В.В.">Петров В.В.</option>
+      <!-- Список врачей будет обновляться автоматически при выборе симптома -->
     </select>
     <button onclick="goToStep(4)">Далее</button>
   </div>
@@ -170,28 +169,34 @@
 
       let specialist = "";
       let doctor = "";
+      let doctorsOptions = "";
 
       switch (symptom) {
         case "Головная боль":
           specialist = "Невролог";
           doctor = "Иванов И.И.";
+          doctorsOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
           break;
         case "Боль в животе":
           specialist = "Гастроэнтеролог";
           doctor = "Петров В.В.";
+          doctorsOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
           break;
         case "Сыпь":
           specialist = "Дерматолог";
           doctor = "Сидорова А.А.";
+          doctorsOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
           break;
         case "Бессонница":
           specialist = "Психотерапевт";
           doctor = "Сидорова А.А.";
+          doctorsOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
           break;
       }
 
       specialistSelect.value = specialist;
-      doctorSelect.value = doctor;
+      doctorSelect.innerHTML = doctorsOptions; // Обновляем список врачей в зависимости от симптома
+      doctorSelect.value = doctor; // Автоматически выбираем рекомендованного врача
     }
 
     function confirmOffer() {
