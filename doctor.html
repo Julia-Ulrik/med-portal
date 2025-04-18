@@ -1,257 +1,176 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Кабинет Врача</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f8ff;
-      color: #333;
       display: flex;
-      height: 100vh;
+      margin: 0;
+      background-color: #f4faff;
+      color: #333;
     }
-
-    /* Сайдбар */
-    .sidebar {
-      width: 250px;
+    nav {
+      width: 200px;
       background-color: #e0f0ff;
       padding: 20px;
+      height: 100vh;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
-
-    .sidebar h2 {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-
-    .sidebar ul {
+    nav ul {
       list-style: none;
       padding: 0;
     }
-
-    .sidebar li {
-      margin: 10px 0;
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: #1E90FF;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* Контент */
-    .content {
-      flex-grow: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    h1 {
-      font-size: 1.8em;
-      color: #1E90FF;
-    }
-
-    .calendar-view {
-      display: flex;
-      gap: 10px;
+    nav ul li {
       margin-bottom: 10px;
     }
-
-    .slot {
-      background-color: #fff;
-      border: 1px solid #1E90FF;
-      border-radius: 4px;
-      padding: 8px;
-      margin: 4px;
-      display: inline-block;
-      min-width: 120px;
-      text-align: center;
-      cursor: pointer;
+    nav ul li a {
+      text-decoration: none;
+      color: #0077cc;
     }
-
-    .slot.online { background-color: #dff7ff; }
-    .slot.chat { background-color: #f0e6ff; }
-    .slot.offline { background-color: #ffe0e0; }
-    .slot.booked { border: 2px solid #888; }
-
+    main {
+      flex: 1;
+      padding: 20px;
+    }
     .calendar {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
     }
-
-    .buttons {
-      margin-top: 10px;
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 10px;
     }
-
-    .buttons button {
-      margin-right: 10px;
-      padding: 8px 16px;
-      border: none;
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      max-width: 800px;
+    }
+    .day {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      min-height: 150px;
+      position: relative;
+    }
+    .slot {
+      font-size: 0.8em;
+      padding: 2px 4px;
+      margin: 2px 0;
       border-radius: 4px;
-      background-color: #1E90FF;
-      color: #fff;
-      cursor: pointer;
+      background-color: #dff0d8; /* free slot */
     }
-
-    /* Чат */
+    .slot.busy {
+      background-color: #f8d7da; /* busy slot */
+    }
     .chat-popup {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 300px;
-      background-color: #fff;
-      border: 1px solid #1E90FF;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .chat-popup header {
-      background-color: #1E90FF;
-      color: #fff;
-      padding: 10px;
-      font-weight: bold;
-      border-radius: 10px 10px 0 0;
-    }
-
-    .chat-popup .body {
-      padding: 10px;
-      height: 150px;
-      overflow-y: auto;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-    }
-
-    .client {
-      background-color: #fff;
       border: 1px solid #ccc;
+      background: white;
       padding: 10px;
-      margin-bottom: 5px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .form-section {
-      margin-bottom: 20px;
-    }
-
-    .form-section h3 {
-      margin-bottom: 10px;
-    }
-
-    .form-section button {
-      margin-top: 10px;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
-
-  <nav class="sidebar">
-    <h2>Меню</h2>
+  <nav>
     <ul>
-      <li><a onclick="showSection('schedule')">График работы</a></li>
-      <li><a onclick="showSection('clients')">Клиенты</a></li>
-      <li><a onclick="showSection('guides')">Справочники</a></li>
-      <li><a onclick="showSection('settings')">Настройки</a></li>
-      <li><a onclick="showSection('help')">Помощь</a></li>
+      <li><a href="#">График работы</a></li>
+      <li><a href="#">Клиенты</a></li>
+      <li><a href="#">Справочники</a></li>
+      <li><a href="#">Настройки</a></li>
+      <li><a href="#">Помощь</a></li>
     </ul>
   </nav>
-
-  <main class="content">
-    <!-- График работы -->
-    <section id="schedule">
-      <h1>Расписание</h1>
-      <div class="calendar-view">
-        <button>Месяц</button>
-        <button>Неделя</button>
-        <button>День</button>
+  <main>
+    <h1>Расписание</h1>
+    <div class="calendar">
+      <div class="calendar-header">
+        <button onclick="changeMonth(-1)">◀ Пред</button>
+        <h2 id="calendar-title"></h2>
+        <button onclick="changeMonth(1)">След ▶</button>
       </div>
-      <div class="calendar">
-        <div class="slot online">10:00 Онлайн</div>
-        <div class="slot chat">10:30 Чат</div>
-        <div class="slot offline">11:00 Оффлайн</div>
-        <div class="slot booked">11:30 Забронировано</div>
-      </div>
-      <div class="buttons">
-        <button>Редактировать</button>
-        <button>Сохранить</button>
-        <button>Отменить</button>
-        <button>Уведомить</button>
-        <button>Согласовать</button>
-      </div>
-    </section>
-
-    <!-- Клиенты -->
-    <section id="clients" class="hidden">
-      <h1>Клиенты</h1>
-      <input type="text" class="search-input" placeholder="Поиск по ФИО или номеру медкарты">
-      <div class="client">Иванов И.И. — 01.01.1980 — №123456</div>
-      <div class="client">Петрова А.А. — 05.03.1995 — №654321</div>
-    </section>
-
-    <!-- Справочники -->
-    <section id="guides" class="hidden">
-      <h1>Справочники</h1>
-      <ul>
-        <li><a href="https://spravki.med.ru" target="_blank">Справочник лекарств</a></li>
-        <li><a href="https://guidelines.ru" target="_blank">Клинические рекомендации</a></li>
-      </ul>
-    </section>
-
-    <!-- Настройки -->
-    <section id="settings" class="hidden">
-      <h1>Настройки</h1>
-      <div class="form-section">
-        <h3>Мой профиль</h3>
-      </div>
-      <div class="form-section">
-        <h3>Конфиденциальность и вход</h3>
-      </div>
-    </section>
-
-    <!-- Помощь -->
-    <section id="help" class="hidden">
-      <h1>Помощь</h1>
-      <form>
-        <label for="issue">Выберите проблему:</label><br/>
-        <select id="issue">
-          <option>Не загружается страница</option>
-          <option>Проблемы с входом</option>
-          <option>Не отображается расписание</option>
-        </select><br/>
-        <button type="submit">Отправить</button>
-      </form>
-    </section>
+      <div class="calendar-grid" id="calendar"></div>
+    </div>
   </main>
 
-  <!-- Всплывающее окно чата -->
   <div class="chat-popup">
-    <header>Мария Иванова — №000123</header>
-    <div class="body">
-      <p>Здравствуйте, доктор!</p>
-      <p>Уточните, пожалуйста, схему приёма препарата.</p>
-    </div>
+    <strong>Чат с пациентом</strong>
+    <p>Иванов Иван</p>
+    <p>Медкарта: №123456</p>
   </div>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('main section').forEach(section => {
-        section.classList.add('hidden');
-      });
-      document.getElementById(id).classList.remove('hidden');
+    const calendar = document.getElementById('calendar');
+    const title = document.getElementById('calendar-title');
+    let currentDate = new Date();
+
+    function renderCalendar(date) {
+      calendar.innerHTML = '';
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+
+      title.textContent = `${date.toLocaleString('ru', { month: 'long' })} ${year}`;
+
+      const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+
+      for (let i = 0; i < startDay; i++) {
+        const empty = document.createElement('div');
+        calendar.appendChild(empty);
+      }
+
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const day = document.createElement('div');
+        day.classList.add('day');
+        const dateText = document.createElement('strong');
+        dateText.textContent = d;
+        day.appendChild(dateText);
+
+        const slots = generateSlots();
+        slots.forEach(slot => day.appendChild(slot));
+
+        calendar.appendChild(day);
+      }
     }
+
+    function generateSlots() {
+      const slots = [];
+      const startHour = 9;
+      const endHour = 17;
+      for (let h = startHour; h < endHour; h++) {
+        for (let m = 0; m < 60; m += 30) {
+          const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+          const slot = document.createElement('div');
+          slot.classList.add('slot');
+          slot.textContent = time;
+          if (Math.random() > 0.7) {
+            slot.classList.add('busy');
+            slot.textContent += ' (занят)';
+          }
+          slots.push(slot);
+        }
+      }
+      return slots;
+    }
+
+    function changeMonth(offset) {
+      currentDate.setMonth(currentDate.getMonth() + offset);
+      renderCalendar(currentDate);
+    }
+
+    renderCalendar(currentDate);
   </script>
 </body>
 </html>
