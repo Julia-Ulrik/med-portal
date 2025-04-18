@@ -39,7 +39,7 @@
     main {
       flex: 1;
       padding: 20px;
-      overflow-y: auto;
+      overflow-x: auto;
     }
 
     .section {
@@ -53,102 +53,130 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 15px;
     }
 
-    th, td {
+    table th, table td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
+      font-size: 14px;
     }
 
-    th {
+    table th {
       background-color: #d0eaff;
     }
 
-    button {
-      padding: 6px 10px;
-      margin-right: 5px;
+    .controls {
+      margin-bottom: 10px;
+    }
+
+    .controls input[type="text"], .controls textarea {
+      padding: 8px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .controls button {
+      padding: 8px 12px;
       background-color: #1E90FF;
       color: white;
       border: none;
       cursor: pointer;
     }
-
-    textarea {
-      width: 100%;
-      padding: 10px;
-    }
   </style>
 </head>
 <body>
   <nav>
-    <h2>Админ-Панель</h2>
+    <h2>Админ-панель</h2>
     <ul>
-      <li onclick="showSection('profiles')">Профили персонала</li>
+      <li onclick="showSection('staff')">Профили персонала</li>
       <li onclick="showSection('support')">Техподдержка</li>
       <li onclick="showSection('settings')">Настройки системы</li>
     </ul>
   </nav>
 
   <main>
-    <section id="profiles" class="section active">
-      <h2>Управление профилями медперсонала</h2>
-      <button>Добавить профиль</button>
-      <button>Удалить выбранное</button>
+    <section id="staff" class="section active">
+      <h2>Профили медицинского персонала</h2>
       <table>
         <thead>
           <tr>
             <th>ФИО</th>
             <th>Должность</th>
             <th>Отделение</th>
-            <th>Роль</th>
+            <th>Email</th>
             <th>Действия</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Иванов И.И.</td>
-            <td>Врач</td>
+            <td>Иванов Иван Иванович</td>
+            <td>Врач-терапевт</td>
             <td>Терапия</td>
-            <td>Пользователь</td>
+            <td>ivanov@example.com</td>
             <td><button>Редактировать</button> <button>Удалить</button></td>
           </tr>
-          <script>
-            for (let i = 2; i <= 20; i++) {
-              document.write(`<tr>
-                <td>Сотрудник ${i} С.С.</td>
-                <td>${i % 2 === 0 ? 'Врач' : 'Регистратор'}</td>
-                <td>${i % 3 === 0 ? 'Педиатрия' : 'Общие вопросы'}</td>
-                <td>${i % 4 === 0 ? 'Администратор' : 'Пользователь'}</td>
-                <td><button>Редактировать</button> <button>Удалить</button></td>
-              </tr>`);
-            }
-          </script>
+          <tr>
+            <td>Петрова Анна Сергеевна</td>
+            <td>Медсестра</td>
+            <td>Хирургия</td>
+            <td>petrova@example.com</td>
+            <td><button>Редактировать</button> <button>Удалить</button></td>
+          </tr>
         </tbody>
       </table>
     </section>
 
     <section id="support" class="section">
-      <h2>Обращения в техподдержку</h2>
-      <textarea rows="6" placeholder="Опишите техническую проблему..."></textarea>
-      <button style="margin-top: 10px;">Отправить</button>
+      <h2>Техподдержка</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Тема</th>
+            <th>Описание</th>
+            <th>Дата</th>
+            <th>Статус</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>Сидоров П.П.</td>
+            <td>sidorov@example.com</td>
+            <td>Проблема с входом</td>
+            <td>Не могу войти в систему после обновления.</td>
+            <td>17.04.2025</td>
+            <td>Открыто</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>Кузнецова А.А.</td>
+            <td>kuznetsova@example.com</td>
+            <td>Сбои в расписании</td>
+            <td>Некорректное отображение графика.</td>
+            <td>16.04.2025</td>
+            <td>В работе</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <h3 style="margin-top: 30px;">История обращений</h3>
-      <ul>
-        <li><strong>Иванова А.А.:</strong> Не отображается расписание врача (15.04.2025)</li>
-        <li><strong>Петров С.С.:</strong> Ошибка при входе в кабинет (14.04.2025)</li>
-      </ul>
+      <h3 style="margin-top: 30px;">Ответ пользователю</h3>
+      <div class="controls">
+        <input type="text" placeholder="Email пользователя">
+        <input type="text" placeholder="Тема сообщения">
+        <textarea rows="5" placeholder="Введите текст сообщения..."></textarea>
+        <button>Отправить на email</button>
+      </div>
     </section>
 
     <section id="settings" class="section">
       <h2>Настройки системы</h2>
-      <p>Панель настройки ролей, прав доступа, уведомлений и глобальных параметров портала.</p>
-      <ul>
-        <li>Управление ролями</li>
-        <li>Настройка email-уведомлений</li>
-        <li>Обновление расписаний</li>
-        <li>Импорт/экспорт данных</li>
-      </ul>
+      <p>Функции управления доступами, уведомлениями и логами будут добавлены позже.</p>
     </section>
   </main>
 
@@ -162,4 +190,5 @@
   </script>
 </body>
 </html>
+
 
