@@ -1,22 +1,257 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Кабинет врача</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Кабинет Врача</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Сайдбар */
+    .sidebar {
+      width: 250px;
+      background-color: #e0f0ff;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 10px 0;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #1E90FF;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Контент */
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      color: #1E90FF;
+    }
+
+    .calendar-view {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .slot {
+      background-color: #fff;
+      border: 1px solid #1E90FF;
+      border-radius: 4px;
+      padding: 8px;
+      margin: 4px;
+      display: inline-block;
+      min-width: 120px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .slot.online { background-color: #dff7ff; }
+    .slot.chat { background-color: #f0e6ff; }
+    .slot.offline { background-color: #ffe0e0; }
+    .slot.booked { border: 2px solid #888; }
+
+    .calendar {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      margin-right: 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1E90FF;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Чат */
+    .chat-popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background-color: #fff;
+      border: 1px solid #1E90FF;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .chat-popup header {
+      background-color: #1E90FF;
+      color: #fff;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .chat-popup .body {
+      padding: 10px;
+      height: 150px;
+      overflow-y: auto;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .client {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    .form-section h3 {
+      margin-bottom: 10px;
+    }
+
+    .form-section button {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Кабинет врача</h1>
-  <p>Добрый день, д-р Смирнов!</p>
 
-  <h2>Сегодняшние консультации</h2>
-  <ul>
-    <li>10:00 — Иванов И.И. | <a href="#">Анкета</a> | <a href="#">Записать рекомендации</a></li>
-    <li>10:30 — Петрова А.А.</li>
-  </ul>
+  <nav class="sidebar">
+    <h2>Меню</h2>
+    <ul>
+      <li><a onclick="showSection('schedule')">График работы</a></li>
+      <li><a onclick="showSection('clients')">Клиенты</a></li>
+      <li><a onclick="showSection('guides')">Справочники</a></li>
+      <li><a onclick="showSection('settings')">Настройки</a></li>
+      <li><a onclick="showSection('help')">Помощь</a></li>
+    </ul>
+  </nav>
 
-  <h2>Поиск пациента</h2>
-  <input type="text" placeholder="ФИО пациента">
-  <button>Найти</button>
+  <main class="content">
+    <!-- График работы -->
+    <section id="schedule">
+      <h1>Расписание</h1>
+      <div class="calendar-view">
+        <button>Месяц</button>
+        <button>Неделя</button>
+        <button>День</button>
+      </div>
+      <div class="calendar">
+        <div class="slot online">10:00 Онлайн</div>
+        <div class="slot chat">10:30 Чат</div>
+        <div class="slot offline">11:00 Оффлайн</div>
+        <div class="slot booked">11:30 Забронировано</div>
+      </div>
+      <div class="buttons">
+        <button>Редактировать</button>
+        <button>Сохранить</button>
+        <button>Отменить</button>
+        <button>Уведомить</button>
+        <button>Согласовать</button>
+      </div>
+    </section>
+
+    <!-- Клиенты -->
+    <section id="clients" class="hidden">
+      <h1>Клиенты</h1>
+      <input type="text" class="search-input" placeholder="Поиск по ФИО или номеру медкарты">
+      <div class="client">Иванов И.И. — 01.01.1980 — №123456</div>
+      <div class="client">Петрова А.А. — 05.03.1995 — №654321</div>
+    </section>
+
+    <!-- Справочники -->
+    <section id="guides" class="hidden">
+      <h1>Справочники</h1>
+      <ul>
+        <li><a href="https://spravki.med.ru" target="_blank">Справочник лекарств</a></li>
+        <li><a href="https://guidelines.ru" target="_blank">Клинические рекомендации</a></li>
+      </ul>
+    </section>
+
+    <!-- Настройки -->
+    <section id="settings" class="hidden">
+      <h1>Настройки</h1>
+      <div class="form-section">
+        <h3>Мой профиль</h3>
+      </div>
+      <div class="form-section">
+        <h3>Конфиденциальность и вход</h3>
+      </div>
+    </section>
+
+    <!-- Помощь -->
+    <section id="help" class="hidden">
+      <h1>Помощь</h1>
+      <form>
+        <label for="issue">Выберите проблему:</label><br/>
+        <select id="issue">
+          <option>Не загружается страница</option>
+          <option>Проблемы с входом</option>
+          <option>Не отображается расписание</option>
+        </select><br/>
+        <button type="submit">Отправить</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Всплывающее окно чата -->
+  <div class="chat-popup">
+    <header>Мария Иванова — №000123</header>
+    <div class="body">
+      <p>Здравствуйте, доктор!</p>
+      <p>Уточните, пожалуйста, схему приёма препарата.</p>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('main section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      document.getElementById(id).classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>
