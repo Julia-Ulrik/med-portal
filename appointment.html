@@ -92,7 +92,7 @@
     <h3>Договор оферты</h3>
     <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
     <input type="checkbox" id="agree"> Я согласен с условиями
-    <button onclick="goToStep(6)">Подтвердить</button>
+    <button onclick="confirmOffer()">Подтвердить</button>
   </div>
 
   <div class="step" id="confirmation">
@@ -110,7 +110,11 @@
       document.getElementById('step' + step).classList.add('active');
     }
 
-    function finish() {
+    function confirmOffer() {
+      if (!document.getElementById('agree').checked) {
+        alert("Подтвердите согласие с офертой!");
+        return;
+      }
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.getElementById('confirmation').classList.add('active');
     }
@@ -118,4 +122,5 @@
 
 </body>
 </html>
+
 
