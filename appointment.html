@@ -113,12 +113,8 @@
 
   <div class="step" id="step2">
     <label>Рекомендуемая специализация:</label>
-    <select id="specialist">
+    <select id="specialist" disabled>
       <option value="">-- Автовыбор --</option>
-      <option value="Невролог">Невролог</option>
-      <option value="Гастроэнтеролог">Гастроэнтеролог</option>
-      <option value="Дерматолог">Дерматолог</option>
-      <option value="Психотерапевт">Психотерапевт</option>
     </select>
     <button onclick="goToStep(3)">Далее</button>
   </div>
@@ -126,7 +122,7 @@
   <div class="step" id="step3">
     <label>Выберите врача:</label>
     <select id="doctor">
-      <!-- Список врачей будет обновляться автоматически при выборе симптома -->
+      <option value="">-- Выберите врача --</option>
     </select>
     <button onclick="goToStep(4)">Далее</button>
   </div>
@@ -168,35 +164,36 @@
       const doctorSelect = document.getElementById('doctor');
 
       let specialist = "";
-      let doctor = "";
-      let doctorsOptions = "";
+      let doctorOptions = "";
+
+      // Обнуляем список врачей
+      doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
 
       switch (symptom) {
         case "Головная боль":
           specialist = "Невролог";
-          doctor = "Иванов И.И.";
-          doctorsOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
+          doctorOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
           break;
         case "Боль в животе":
           specialist = "Гастроэнтеролог";
-          doctor = "Петров В.В.";
-          doctorsOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
+          doctorOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
           break;
         case "Сыпь":
           specialist = "Дерматолог";
-          doctor = "Сидорова А.А.";
-          doctorsOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+          doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
           break;
         case "Бессонница":
           specialist = "Психотерапевт";
-          doctor = "Сидорова А.А.";
-          doctorsOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+          doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+          break;
+        default:
           break;
       }
 
+      // Заполняем список врачей
       specialistSelect.value = specialist;
-      doctorSelect.innerHTML = doctorsOptions; // Обновляем список врачей в зависимости от симптома
-      doctorSelect.value = doctor; // Автоматически выбираем рекомендованного врача
+      document.getElementById('specialist').disabled = false; // Разрешаем выбор специализации
+      doctorSelect.innerHTML += doctorOptions; // Добавляем врачей для выбранного симптома
     }
 
     function confirmOffer() {
