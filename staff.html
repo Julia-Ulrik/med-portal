@@ -2,24 +2,184 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Регистратура</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кабинет Регистратора</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      margin: 0;
+      background-color: #f0f8ff;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #e6f0fa;
+      padding: 20px;
+      height: 100vh;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h2 {
+      font-size: 1.2em;
+      color: #007acc;
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 15px;
+      cursor: pointer;
+      color: #005f99;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .tab {
+      display: none;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    .client-list, .waitlist {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .client {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .client:last-child {
+      border-bottom: none;
+    }
+
+    .chat-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 280px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .chat-header {
+      background-color: #007acc;
+      color: #fff;
+      padding: 10px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      font-weight: bold;
+    }
+
+    .chat-body {
+      padding: 10px;
+      height: 150px;
+      overflow-y: auto;
+    }
+
+    .chat-footer {
+      padding: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    .chat-footer input {
+      width: 100%;
+      padding: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Кабинет регистратуры</h1>
+  <div class="sidebar">
+    <h2>Меню</h2>
+    <ul>
+      <li onclick="showTab('schedule')">График работы</li>
+      <li onclick="showTab('clients')">Клиенты</li>
+      <li onclick="showTab('waitlist')">Лист ожидания</li>
+      <li onclick="showTab('settings')">Настройки</li>
+      <li onclick="showTab('support')">Помощь</li>
+    </ul>
+  </div>
 
-  <h2>Запись на приём</h2>
-  <form>
-    ФИО пациента: <input type="text"><br>
-    Специалист: <select>
-      <option>Терапевт</option>
-      <option>Хирург</option>
-    </select><br>
-    Дата и время: <input type="datetime-local"><br>
-    <button type="submit">Записать</button>
-  </form>
+  <div class="content">
+    <div id="schedule" class="tab active">
+      <h2>График работы</h2>
+      <p>Календарь приёма врачей будет здесь.</p>
+    </div>
 
-  <h2>Расписание врачей</h2>
-  <p>Петрова — Пн, Ср, Пт с 9:00 до 14:00</p>
+    <div id="clients" class="tab">
+      <h2>Клиенты</h2>
+      <input type="text" placeholder="Поиск по ФИО или номеру карты">
+      <div class="client-list">
+        <div class="client">Иванов И.И. — №12345678</div>
+        <div class="client">Петрова А.А. — №87654321</div>
+      </div>
+    </div>
+
+    <div id="waitlist" class="tab">
+      <h2>Лист ожидания</h2>
+      <div class="waitlist">
+        <h3>Врач: Смирнов С.С.</h3>
+        <p>Пациент: Козлов П.П. — №10010010</p>
+        <p>Пациент: Никифорова Н.В. — №10010011</p>
+      </div>
+      <div class="waitlist">
+        <h3>Врач: Ильина Л.М.</h3>
+        <p>Пациент: Федорова Ю.Р. — №10020020</p>
+      </div>
+    </div>
+
+    <div id="settings" class="tab">
+      <h2>Настройки</h2>
+      <p>Настройки профиля и доступа.</p>
+    </div>
+
+    <div id="support" class="tab">
+      <h2>Помощь</h2>
+      <form>
+        <label>Выберите проблему:</label>
+        <select>
+          <option>Проблема со входом</option>
+          <option>Не отображаются записи</option>
+          <option>Другое</option>
+        </select>
+        <br><br>
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="chat-box">
+    <div class="chat-header">Чат с пациентом</div>
+    <div class="chat-body">
+      <p><strong>Козлов П.П.:</strong> Здравствуйте!</p>
+      <p><strong>Вы:</strong> Добрый день! Чем могу помочь?</p>
+    </div>
+    <div class="chat-footer">
+      <input type="text" placeholder="Введите сообщение...">
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
 </body>
 </html>
