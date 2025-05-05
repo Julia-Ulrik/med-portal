@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Запись на онлайн-консультацию</title>
   <style>
-    /* Стили без изменений */
     body {
       font-family: Arial, sans-serif;
       max-width: 100%;
@@ -56,20 +55,18 @@
       align-items: flex-start;
       margin-top: 10px;
     }
-    .checkbox-container input[type="checkbox"] {
-      margin-bottom: 10px;
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
     }
     @media (max-width: 768px) {
       h2 { font-size: 1.8em; }
-      label { font-size: 1em; }
-      select, input[type="checkbox"], button { font-size: 1em; }
+      label, select, button { font-size: 1em; }
     }
     @media (max-width: 480px) {
       h2 { font-size: 1.5em; }
-      select, input[type="checkbox"], button {
-        font-size: 0.9em;
-        padding: 10px;
-      }
+      select, button { font-size: 0.9em; padding: 10px; }
     }
   </style>
 </head>
@@ -79,22 +76,27 @@
 
 <div class="step active" id="step1">
   <label>Выберите ваши симптомы:</label>
-  <select id="symptoms" onchange="autoFillDoctor()">
+  <select id="symptoms" onchange="fillDoctors()">
     <option value="">-- Выберите симптом --</option>
     <option value="Головная боль">Головная боль</option>
     <option value="Боль в животе">Боль в животе</option>
     <option value="Сыпь">Сыпь</option>
     <option value="Бессонница">Бессонница</option>
   </select>
-  <button onclick="goToStep(2)" disabled id="step1Next">Далее</button>
+  <div class="nav-buttons">
+    <button onclick="goToStep(2)" id="step1Next" disabled>Далее</button>
+  </div>
 </div>
 
 <div class="step" id="step2">
   <label>Выберите врача:</label>
-  <select id="doctor" disabled onchange="enableStep2Button()">
+  <select id="doctor" onchange="enableStep2Next()">
     <option value="">-- Выберите врача --</option>
   </select>
-  <button onclick="goToStep(3)" disabled>Далее</button>
+  <div class="nav-buttons">
+    <button onclick="goToStep(1)">Назад</button>
+    <button onclick="goToStep(3)" id="step2Next" disabled>Далее</button>
+  </div>
 </div>
 
 <div class="step" id="step3">
@@ -104,7 +106,10 @@
     <option>11:30, 18.04.2025</option>
     <option>14:00, 19.04.2025</option>
   </select>
-  <button onclick="goToStep(4)">Далее</button>
+  <div class="nav-buttons">
+    <button onclick="goToStep(2)">Назад</button>
+    <button onclick="goToStep(4)">Далее</button>
+  </div>
 </div>
 
 <div class="step" id="step4">
@@ -114,7 +119,10 @@
     <input type="checkbox" id="agree">
     <label for="agree">Я согласен с условиями</label>
   </div>
-  <button onclick="confirmOffer()">Подтвердить</button>
+  <div class="nav-buttons">
+    <button onclick="goToStep(3)">Назад</button>
+    <button onclick="confirmOffer()">Подтвердить</button>
+  </div>
 </div>
 
 <div class="step" id="confirmation">
@@ -128,38 +136,34 @@
     document.getElementById('step' + step).classList.add('active');
   }
 
-  function autoFillDoctor() {
+  function fillDoctors() {
     const symptom = document.getElementById('symptoms').value;
     const doctorSelect = document.getElementById('doctor');
-    const step1NextButton = document.getElementById('step1Next');
+    const step1Next = document.getElementById('step1Next');
 
-    let doctorOptions = '<option value="">-- Выберите врача --</option>';
+    doctorSelect.innerHTML = '<option value="">-- Выберите врача --</option>';
+    step1Next.disabled = true;
 
-    switch (symptom) {
-      case "Головная боль":
-        doctorOptions += '<option value="Иванов И.И.">Иванов И.И.</option>';
-        break;
-      case "Боль в животе":
-        doctorOptions += '<option value="Петров В.В.">Петров В.В.</option>';
-        break;
-      case "Сыпь":
-        doctorOptions += '<option value="Сидорова А.А.">Сидорова А.А.</option>';
-        break;
-      case "Бессонница":
-        doctorOptions += '<option value="Кузнецова Н.Н.">Кузнецова Н.Н.</option>';
-        break;
-      default:
-        break;
+    let options = "";
+    if (symptom === "Головная боль") {
+      options = '<option value="Иванов И.И.">Иванов И.И.</option>';
+    } else if (symptom === "Боль в животе") {
+      options = '<option value="Петров В.В.">Петров В.В.</option>';
+    } else if (symptom === "Сыпь") {
+      options = '<option value="Сидорова А.А.">Сидорова А.А.</option>';
+    } else if (symptom === "Бессонница") {
+      options = '<option value="Кузнецов Д.Д.">Кузнецов Д.Д.</option>';
     }
 
-    doctorSelect.innerHTML = doctorOptions;
-    doctorSelect.disabled = symptom === "";
-    step1NextButton.disabled = symptom === "";
+    if (options) {
+      doctorSelect.innerHTML += options;
+      step1Next.disabled = false;
+    }
   }
 
-  function enableStep2Button() {
+  function enableStep2Next() {
     const doctorSelected = document.getElementById('doctor').value;
-    document.querySelector('#step2 button').disabled = !doctorSelected;
+    document.getElementById('step2Next').disabled = !doctorSelected;
   }
 
   function confirmOffer() {
@@ -175,7 +179,7 @@
       Вы успешно записались на онлайн-консультацию!<br><br>
       👨‍⚕️ Врач: <strong>${doctor}</strong><br>
       📅 Время: <strong>${slot}</strong><br>
-      ✅ Слот подтверждён. Подтверждение отправлено на вашу почту.
+      ✅ Подтверждение отправлено на вашу почту.
     `;
 
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
