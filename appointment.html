@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Запись на онлайн-консультацию</title>
   <style>
+    /* Стили остаются без изменений */
     body {
       font-family: Arial, sans-serif;
       max-width: 100%;
@@ -57,7 +58,6 @@
       display: block;
     }
 
-    /* Чекбокс сверху */
     .checkbox-container {
       display: flex;
       flex-direction: column;
@@ -108,36 +108,29 @@
       <option value="Сыпь">Сыпь</option>
       <option value="Бессонница">Бессонница</option>
     </select>
-    <button onclick="goToStep(2)">Далее</button>
+    <input type="hidden" id="specialist">
+    <button onclick="goToStep(2)" disabled id="step1Next">Далее</button>
   </div>
 
   <div class="step" id="step2">
-    <label>Рекомендуемая специализация:</label>
-    <select id="specialist" onchange="autoFillDoctors()" disabled>
-      <option value="">-- Выберите специализацию --</option>
+    <label>Выберите врача:</label>
+    <select id="doctor" disabled onchange="enableStep2Button()">
+      <option value="">-- Выберите врача --</option>
     </select>
     <button onclick="goToStep(3)" disabled>Далее</button>
   </div>
 
   <div class="step" id="step3">
-    <label>Выберите врача:</label>
-    <select id="doctor" disabled>
-      <option value="">-- Выберите врача --</option>
-    </select>
-    <button onclick="goToStep(4)" disabled>Далее</button>
-  </div>
-
-  <div class="step" id="step4">
     <label>Выберите удобное время:</label>
     <select id="slot">
       <option>10:00, 18.04.2025</option>
       <option>11:30, 18.04.2025</option>
       <option>14:00, 19.04.2025</option>
     </select>
-    <button onclick="goToStep(5)">Далее</button>
+    <button onclick="goToStep(4)">Далее</button>
   </div>
 
-  <div class="step" id="step5">
+  <div class="step" id="step4">
     <h3>Договор оферты</h3>
     <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
     <div class="checkbox-container">
@@ -160,74 +153,52 @@
 
     function autoFillSpecialist() {
       const symptom = document.getElementById('symptoms').value;
-      const specialistSelect = document.getElementById('specialist');
+      const specialistInput = document.getElementById('specialist');
       const doctorSelect = document.getElementById('doctor');
-      const nextButton = document.querySelectorAll('#step2 button')[0];
+      const step1NextButton = document.getElementById('step1Next');
 
       let specialist = "";
       let doctorOptions = "";
 
-      // Обнуляем список врачей
-      doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
+      // Сброс значений
+      doctorSelect.innerHTML = '<option value="">-- Выберите врача --</option>';
       doctorSelect.disabled = true;
+      specialistInput.value = "";
 
-      // Убираем старое значение специализации
-      specialistSelect.innerHTML = `<option value="">-- Выберите специализацию --</option>`;
-      specialistSelect.disabled = true;
-
-      // Заполняем специализацию
       switch (symptom) {
         case "Головная боль":
           specialist = "Невролог";
-          doctorOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
+          doctorOptions = '<option value="Иванов И.И.">Иванов И.И.</option>';
           break;
         case "Боль в животе":
           specialist = "Гастроэнтеролог";
-          doctorOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
+          doctorOptions = '<option value="Петров В.В.">Петров В.В.</option>';
           break;
         case "Сыпь":
           specialist = "Дерматолог";
-          doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+          doctorOptions = '<option value="Сидорова А.А.">Сидорова А.А.</option>';
           break;
         case "Бессонница":
           specialist = "Психотерапевт";
-          doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
+          doctorOptions = '<option value="Сидорова А.А.">Сидорова А.А.</option>';
           break;
         default:
           break;
       }
 
-      // Заполняем список специализаций
-      specialistSelect.value = specialist;
-      specialistSelect.disabled = false; // Разрешаем выбор специализации
-      nextButton.disabled = false; // Активируем кнопку "Далее"
-      
-      // Заполняем список врачей
-      doctorSelect.innerHTML += doctorOptions;
-      doctorSelect.disabled = false; // Разрешаем выбор врача
+      if (symptom) {
+        specialistInput.value = specialist;
+        doctorSelect.innerHTML += doctorOptions;
+        doctorSelect.disabled = false;
+        step1NextButton.disabled = false;
+      } else {
+        step1NextButton.disabled = true;
+      }
     }
 
-    function autoFillDoctors() {
-      const specialist = document.getElementById('specialist').value;
-      const doctorSelect = document.getElementById('doctor');
-      const nextButton = document.querySelectorAll('#step3 button')[0];
-      let doctorOptions = "";
-
-      // Обнуляем список врачей
-      doctorSelect.innerHTML = `<option value="">-- Выберите врача --</option>`;
-
-      if (specialist === "Невролог") {
-        doctorOptions = `<option value="Иванов И.И.">Иванов И.И.</option>`;
-      } else if (specialist === "Гастроэнтеролог") {
-        doctorOptions = `<option value="Петров В.В.">Петров В.В.</option>`;
-      } else if (specialist === "Дерматолог") {
-        doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
-      } else if (specialist === "Психотерапевт") {
-        doctorOptions = `<option value="Сидорова А.А.">Сидорова А.А.</option>`;
-      }
-
-      doctorSelect.innerHTML += doctorOptions;
-      nextButton.disabled = false; // Активируем кнопку "Далее"
+    function enableStep2Button() {
+      const doctorSelected = document.getElementById('doctor').value;
+      document.querySelector('#step2 button').disabled = !doctorSelected;
     }
 
     function confirmOffer() {
