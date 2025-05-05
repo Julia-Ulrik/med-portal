@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Запись на онлайн-консультацию</title>
   <style>
-    /* Стили остаются без изменений */
+    /* Стили без изменений */
     body {
       font-family: Arial, sans-serif;
       max-width: 100%;
@@ -16,20 +16,17 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       padding-bottom: 40px;
     }
-
     h2 {
       color: #1E90FF;
       text-align: center;
       font-size: 2em;
     }
-
     label {
       display: block;
       margin: 15px 0 5px;
       font-size: 1.2em;
       color: #333;
     }
-
     select, input[type="checkbox"], button {
       width: 100%;
       padding: 12px;
@@ -38,56 +35,37 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
-
     button {
       background-color: #1E90FF;
       color: white;
       cursor: pointer;
       font-weight: bold;
     }
-
     button:hover {
       background-color: #1C86EE;
     }
-
     .step {
       display: none;
     }
-
     .step.active {
       display: block;
     }
-
     .checkbox-container {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-top: 10px;
     }
-
     .checkbox-container input[type="checkbox"] {
       margin-bottom: 10px;
     }
-
     @media (max-width: 768px) {
-      h2 {
-        font-size: 1.8em;
-      }
-
-      label {
-        font-size: 1em;
-      }
-
-      select, input[type="checkbox"], button {
-        font-size: 1em;
-      }
+      h2 { font-size: 1.8em; }
+      label { font-size: 1em; }
+      select, input[type="checkbox"], button { font-size: 1em; }
     }
-
     @media (max-width: 480px) {
-      h2 {
-        font-size: 1.5em;
-      }
-
+      h2 { font-size: 1.5em; }
       select, input[type="checkbox"], button {
         font-size: 0.9em;
         padding: 10px;
@@ -97,133 +75,114 @@
 </head>
 <body>
 
-  <h2>Онлайн-запись на консультацию</h2>
+<h2>Онлайн-запись на консультацию</h2>
 
-  <div class="step active" id="step1">
-    <label>Выберите ваши симптомы:</label>
-    <select id="symptoms" onchange="autoFillSpecialist()">
-      <option value="">-- Выберите симптом --</option>
-      <option value="Головная боль">Головная боль</option>
-      <option value="Боль в животе">Боль в животе</option>
-      <option value="Сыпь">Сыпь</option>
-      <option value="Бессонница">Бессонница</option>
-    </select>
-    <input type="hidden" id="specialist">
-    <button onclick="goToStep(2)" disabled id="step1Next">Далее</button>
+<div class="step active" id="step1">
+  <label>Выберите ваши симптомы:</label>
+  <select id="symptoms" onchange="autoFillDoctor()">
+    <option value="">-- Выберите симптом --</option>
+    <option value="Головная боль">Головная боль</option>
+    <option value="Боль в животе">Боль в животе</option>
+    <option value="Сыпь">Сыпь</option>
+    <option value="Бессонница">Бессонница</option>
+  </select>
+  <button onclick="goToStep(2)" disabled id="step1Next">Далее</button>
+</div>
+
+<div class="step" id="step2">
+  <label>Выберите врача:</label>
+  <select id="doctor" disabled onchange="enableStep2Button()">
+    <option value="">-- Выберите врача --</option>
+  </select>
+  <button onclick="goToStep(3)" disabled>Далее</button>
+</div>
+
+<div class="step" id="step3">
+  <label>Выберите удобное время:</label>
+  <select id="slot">
+    <option>10:00, 18.04.2025</option>
+    <option>11:30, 18.04.2025</option>
+    <option>14:00, 19.04.2025</option>
+  </select>
+  <button onclick="goToStep(4)">Далее</button>
+</div>
+
+<div class="step" id="step4">
+  <h3>Договор оферты</h3>
+  <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
+  <div class="checkbox-container">
+    <input type="checkbox" id="agree">
+    <label for="agree">Я согласен с условиями</label>
   </div>
+  <button onclick="confirmOffer()">Подтвердить</button>
+</div>
 
-  <div class="step" id="step2">
-    <label>Выберите врача:</label>
-    <select id="doctor" disabled onchange="enableStep2Button()">
-      <option value="">-- Выберите врача --</option>
-    </select>
-    <button onclick="goToStep(3)" disabled>Далее</button>
-  </div>
+<div class="step" id="confirmation">
+  <h3>Спасибо!</h3>
+  <p id="confirmationMessage"></p>
+</div>
 
-  <div class="step" id="step3">
-    <label>Выберите удобное время:</label>
-    <select id="slot">
-      <option>10:00, 18.04.2025</option>
-      <option>11:30, 18.04.2025</option>
-      <option>14:00, 19.04.2025</option>
-    </select>
-    <button onclick="goToStep(4)">Далее</button>
-  </div>
+<script>
+  function goToStep(step) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+  }
 
-  <div class="step" id="step4">
-    <h3>Договор оферты</h3>
-    <p>Нажимая кнопку ниже, вы подтверждаете согласие с условиями оферты...</p>
-    <div class="checkbox-container">
-      <input type="checkbox" id="agree">
-      <label for="agree">Я согласен с условиями</label>
-    </div>
-    <button onclick="confirmOffer()">Подтвердить</button>
-  </div>
+  function autoFillDoctor() {
+    const symptom = document.getElementById('symptoms').value;
+    const doctorSelect = document.getElementById('doctor');
+    const step1NextButton = document.getElementById('step1Next');
 
-  <div class="step" id="confirmation">
-    <h3>Спасибо!</h3>
-    <p id="confirmationMessage"></p>
-  </div>
+    let doctorOptions = '<option value="">-- Выберите врача --</option>';
 
-  <script>
-    function goToStep(step) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById('step' + step).classList.add('active');
+    switch (symptom) {
+      case "Головная боль":
+        doctorOptions += '<option value="Иванов И.И.">Иванов И.И.</option>';
+        break;
+      case "Боль в животе":
+        doctorOptions += '<option value="Петров В.В.">Петров В.В.</option>';
+        break;
+      case "Сыпь":
+        doctorOptions += '<option value="Сидорова А.А.">Сидорова А.А.</option>';
+        break;
+      case "Бессонница":
+        doctorOptions += '<option value="Кузнецова Н.Н.">Кузнецова Н.Н.</option>';
+        break;
+      default:
+        break;
     }
 
-    function autoFillSpecialist() {
-      const symptom = document.getElementById('symptoms').value;
-      const specialistInput = document.getElementById('specialist');
-      const doctorSelect = document.getElementById('doctor');
-      const step1NextButton = document.getElementById('step1Next');
+    doctorSelect.innerHTML = doctorOptions;
+    doctorSelect.disabled = symptom === "";
+    step1NextButton.disabled = symptom === "";
+  }
 
-      let specialist = "";
-      let doctorOptions = "";
+  function enableStep2Button() {
+    const doctorSelected = document.getElementById('doctor').value;
+    document.querySelector('#step2 button').disabled = !doctorSelected;
+  }
 
-      // Сброс значений
-      doctorSelect.innerHTML = '<option value="">-- Выберите врача --</option>';
-      doctorSelect.disabled = true;
-      specialistInput.value = "";
-
-      switch (symptom) {
-        case "Головная боль":
-          specialist = "Невролог";
-          doctorOptions = '<option value="Иванов И.И.">Иванов И.И.</option>';
-          break;
-        case "Боль в животе":
-          specialist = "Гастроэнтеролог";
-          doctorOptions = '<option value="Петров В.В.">Петров В.В.</option>';
-          break;
-        case "Сыпь":
-          specialist = "Дерматолог";
-          doctorOptions = '<option value="Сидорова А.А.">Сидорова А.А.</option>';
-          break;
-        case "Бессонница":
-          specialist = "Психотерапевт";
-          doctorOptions = '<option value="Сидорова А.А.">Сидорова А.А.</option>';
-          break;
-        default:
-          break;
-      }
-
-      if (symptom) {
-        specialistInput.value = specialist;
-        doctorSelect.innerHTML += doctorOptions;
-        doctorSelect.disabled = false;
-        step1NextButton.disabled = false;
-      } else {
-        step1NextButton.disabled = true;
-      }
+  function confirmOffer() {
+    if (!document.getElementById('agree').checked) {
+      alert("Подтвердите согласие с офертой!");
+      return;
     }
 
-    function enableStep2Button() {
-      const doctorSelected = document.getElementById('doctor').value;
-      document.querySelector('#step2 button').disabled = !doctorSelected;
-    }
+    const doctor = document.getElementById('doctor').value;
+    const slot = document.getElementById('slot').value;
 
-    function confirmOffer() {
-      if (!document.getElementById('agree').checked) {
-        alert("Подтвердите согласие с офертой!");
-        return;
-      }
+    const message = `
+      Вы успешно записались на онлайн-консультацию!<br><br>
+      👨‍⚕️ Врач: <strong>${doctor}</strong><br>
+      📅 Время: <strong>${slot}</strong><br>
+      ✅ Слот подтверждён. Подтверждение отправлено на вашу почту.
+    `;
 
-      const doctor = document.getElementById('doctor').value;
-      const specialist = document.getElementById('specialist').value;
-      const slot = document.getElementById('slot').value;
-
-      const message = `
-        Вы успешно записались на онлайн-консультацию!<br><br>
-        👨‍⚕️ Врач: <strong>${doctor}</strong><br>
-        📚 Специализация: <strong>${specialist}</strong><br>
-        📅 Время: <strong>${slot}</strong><br>
-        ✅ Слот подтверждён. Подтверждение отправлено на вашу почту.
-      `;
-
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById('confirmation').classList.add('active');
-      document.getElementById('confirmationMessage').innerHTML = message;
-    }
-  </script>
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('confirmation').classList.add('active');
+    document.getElementById('confirmationMessage').innerHTML = message;
+  }
+</script>
 
 </body>
 </html>
