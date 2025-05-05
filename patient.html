@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Кабинет пациента</title>
   <style>
     body {
@@ -17,6 +17,30 @@
       color: #fff;
       padding: 20px;
       text-align: center;
+      position: relative;
+    }
+
+    .header-buttons {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .header-buttons a {
+      color: white;
+      text-decoration: none;
+      background-color: #005fa3;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .header-buttons a:hover {
+      background-color: #004b85;
     }
 
     .tabs {
@@ -84,6 +108,10 @@
 <body>
 
   <header>
+    <div class="header-buttons">
+      <a href="https://med-portal-sigma.vercel.app/">Вернуться на главную страницу</a>
+      <a href="login.html">Выйти из личного кабинета</a>
+    </div>
     <h1>Личный кабинет пациента</h1>
   </header>
 
@@ -107,6 +135,7 @@
           <button class="btn">Подтвердить</button>
           <button class="btn">Изменить</button>
           <button class="btn">Отменить</button>
+          <button class="btn">Заполнить анкету здоровья</button>
         </div>
       </div>
     </div>
@@ -191,3 +220,4 @@
 
 </body>
 </html>
+
